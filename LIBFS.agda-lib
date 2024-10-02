@@ -1,0 +1,3 @@
+name: LIBFS
+include: .
+depend: standard-library
