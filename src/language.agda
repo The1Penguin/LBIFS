@@ -1,13 +1,66 @@
-open import Data.List using (_∷_; []; List)
+import Data.List as List
+open List using (_∷_; []; List)
 open import Data.Nat using (ℕ)
+open import Data.Bool using (true; false; T) renaming (Bool to 𝔹)
 open import Data.String using (String)
 open import Data.String.Properties using (<-strictTotalOrder-≈)
-open import Data.Tree.AVL.Map (<-strictTotalOrder-≈) using ()
+open import Data.Tree.AVL.Map (<-strictTotalOrder-≈) using (Map)
+import Data.Tree.AVL.Sets (<-strictTotalOrder-≈) as Sets
+open Sets using (⟨Set⟩)
 open import Data.Product.Base using (_×_; _,_)
 open import Data.Sum.Base using () renaming (_⊎_ to _∪_; inj₁ to ∪₁; inj₂ to ∪₂)
 open import Level as AgdaLevel using (_⊔_; 0ℓ) renaming (Level to Setℓ; suc to sucℓ)
 open import Effect.Applicative using (RawAlternative)
 open import Data.List.Instances using (listAlternative)
+import Data.List.Relation.Binary.Permutation.Propositional as Perm
+open Perm using (_↭_; refl; prep; swap; trans)
+open import Data.List.Membership.Propositional -- using (_∈_)
+-- open import Relation.Binary.PropositionalEquality using (_≡_; refl)
+open import Data.Empty using (⊥)
+
+data Listed {
+
+-- Can I reverse the order of the arguments using an implicit {a : ℕ} and make the argument (a) ?
+-- data WellTyped : Set where
+--   ok : (a : ℕ) → (t : List ℕ a) → a ∈ t → WellTyped
+
+{-
+variable
+  ℓ ℓ′ : Setℓ
+
+-- Faux RawAlternative since ⟨Set⟩ cannot implement fmap.
+-- Also contains additional concepts representing a variable context.
+record VarContext {A : Set ℓ} {Container : Set ℓ → Set ℓ′} (T : Container A) : Set (sucℓ ℓ ⊔ ℓ′) where
+  field
+    ∅ : Container A
+    singleton : A → Container A
+    _<>_ : Container A → Container A → Container A
+
+-- setContext : VarContext {String} {List}
+-- setContext = {!!}
+
+instance
+  listContext : VarContext {ℕ} (List ℕ)
+  listContext = record { ∅ = []; singleton = _∷ []; _<>_ = List._++_ }
+
+open VarContext ⦃...⦄
+
+d : List ℕ
+d = singleton 5
+-}
+
+
+{-
+eqtest : 9 ∷ 2 ∷ 1 ∷ 8 ∷ [] ↭ 9 ∷ 1 ∷ 2 ∷ 8 ∷ []
+eqtest = Perm.prep 9 (Perm.swap 2 1 Perm.refl)
+
+isEq : {A : Set} (l₁ l₂ : List A) → (l₁ ↭ l₂ ∪ ⊥)
+isEq [] [] = ∪₁ refl
+isEq [] (x ∷ l₂) = false
+isEq (x ∷ l₁) [] = false
+isEq (x ∷ l₁) l₂ = {! !}
+-}
+
 
 open RawAlternative ⦃...⦄
 
@@ -25,8 +78,10 @@ data E {ℓғ ℓɢ : Setℓ}
   nat  : ℕ → E empty
   _+ₑ_ : {aₗ aᵣ : F A} → E aₗ → E aᵣ → E (aₗ <|> aᵣ)
 
-exp₁ : E ("hej" ∷ "hallå" ∷ [])
-exp₁ = nat 1 +ₑ var "hej" +ₑ var "hallå"
+-- data EqivExpr List 
+
+exp₁ : E ("a" ∷ "b" ∷ "c" ∷ [])
+exp₁ = nat 1 +ₑ var "a" +ₑ var "b" +ₑ var "c"
 
 data Level : Set where
   low  : Level
