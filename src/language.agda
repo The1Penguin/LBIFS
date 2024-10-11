@@ -18,49 +18,6 @@ open import Data.List.Membership.Propositional -- using (_∈_)
 -- open import Relation.Binary.PropositionalEquality using (_≡_; refl)
 open import Data.Empty using (⊥)
 
-data Listed {
-
--- Can I reverse the order of the arguments using an implicit {a : ℕ} and make the argument (a) ?
--- data WellTyped : Set where
---   ok : (a : ℕ) → (t : List ℕ a) → a ∈ t → WellTyped
-
-{-
-variable
-  ℓ ℓ′ : Setℓ
-
--- Faux RawAlternative since ⟨Set⟩ cannot implement fmap.
--- Also contains additional concepts representing a variable context.
-record VarContext {A : Set ℓ} {Container : Set ℓ → Set ℓ′} (T : Container A) : Set (sucℓ ℓ ⊔ ℓ′) where
-  field
-    ∅ : Container A
-    singleton : A → Container A
-    _<>_ : Container A → Container A → Container A
-
--- setContext : VarContext {String} {List}
--- setContext = {!!}
-
-instance
-  listContext : VarContext {ℕ} (List ℕ)
-  listContext = record { ∅ = []; singleton = _∷ []; _<>_ = List._++_ }
-
-open VarContext ⦃...⦄
-
-d : List ℕ
-d = singleton 5
--}
-
-
-{-
-eqtest : 9 ∷ 2 ∷ 1 ∷ 8 ∷ [] ↭ 9 ∷ 1 ∷ 2 ∷ 8 ∷ []
-eqtest = Perm.prep 9 (Perm.swap 2 1 Perm.refl)
-
-isEq : {A : Set} (l₁ l₂ : List A) → (l₁ ↭ l₂ ∪ ⊥)
-isEq [] [] = ∪₁ refl
-isEq [] (x ∷ l₂) = false
-isEq (x ∷ l₁) [] = false
-isEq (x ∷ l₁) l₂ = {! !}
--}
-
 
 open RawAlternative ⦃...⦄
 
