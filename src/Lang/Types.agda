@@ -25,7 +25,8 @@ variable
 
 
 Vars : Exp → List Var
-Vars (var x) = x ∷ []
+Vars l = l ∷ []
+Vars h = h ∷ []
 Vars (litℕ x) = []
 Vars (e =ₑ e₁) = Vars e ++ Vars e₁
 Vars (e mod e₁) = Vars e ++ Vars e₁

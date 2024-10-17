@@ -8,29 +8,41 @@ open import Lang.Types
 open import NumberOverload
 open import Relation.Binary.PropositionalEquality using (_≡_; _≢_; refl; cong)
 
-typed : (cmd : Cmd) → TC ([low] ⊢ cmd)
-typed cmd = typableCmd [low] cmd
-
 -- Don't evaluate semantics as this is not terminating
 code⊥ : Cmd
 code⊥ =
   while 0 =ₑ 0 exec skip
 
+
+
+
+
+typed : (cmd : Cmd) → TC ([low] ⊢ cmd)
+typed cmd = typableCmd [low] cmd
+
 ex1 ex2 ex3 : Cmd
 ex1 =
-  h := var h mod 2 ⨟
+  h := h mod 2 ⨟
   l := 0 ⨟
-  if var h =ₑ 1 then l := 1
-                else skip
+  if h =ₑ 1 then l := 1
+            else skip
 
 ex2 =
-  l := var l mod 2 ⨟
+  l := l mod 2 ⨟
   h := 0 ⨟
-  if var l =ₑ 1 then h := 1
-                else skip
+  if l =ₑ 1 then h := 1
+            else skip
 
-ex3 = if var h =ₑ 0 then h := 1 else h := 2 ⨟
+ex3 = if h =ₑ 0 then h := 1 else h := 2 ⨟
       l := 0
+
+
+
+
+
+
+
+
 
 
 

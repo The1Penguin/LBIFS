@@ -18,8 +18,8 @@ Result : Set
 Result = State ∪ ⊥
 
 ⟦_⟧ₑ : Exp → State → ℕ
-⟦ var l ⟧ₑ s = sₗ s
-⟦ var h ⟧ₑ s = sₕ s
+⟦ l ⟧ₑ s = sₗ s
+⟦ h ⟧ₑ s = sₕ s
 ⟦ litℕ n ⟧ₑ s = n
 ⟦ e =ₑ e₁ ⟧ₑ s with ⟦ e ⟧ₑ s | ⟦ e₁ ⟧ₑ s
 ... | n | n₁ = ifᵇ (n ≡ᵇ n₁) 1 0

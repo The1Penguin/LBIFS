@@ -7,7 +7,8 @@ data Var : Set where
   h : Var
 
 data Exp : Set where
-  var   : Var → Exp
+  l     : Exp
+  h     : Exp
   litℕ  : ℕ → Exp
   _=ₑ_  : Exp → Exp → Exp
   _mod_ : Exp → Exp → Exp
