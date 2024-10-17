@@ -45,7 +45,6 @@ ex3 = if h =ₑ 0 then h := 1 else h := 2 ⨟
 
 
 
-
 {-
 data Safe {l₀ h₀ h₁} (C : Cmd) : Set where
   safe : ⟦ C ⟧ (h₀ , l₀) ≈ₗ ⟦ C ⟧ (h₁ , l₀) → Safe C
@@ -78,4 +77,14 @@ sound {l₀} {h₀} {h₁} (C4 t t₁) with sound {l₀} {h₀} {h₁} t | sound
 sound (C5 e t) = {! !}
 sound (C6 e t t₁) = {! !}
 sound (C7 t) = {! safe refl !}
+-}
+{-
+sound : ∀ {cmd : Cmd} → [low] ⊢ cmd → ∀ {l₀ h₀ h₁} → ⟦ C ⟧ (h₀ , l₀) ≈ₗ ⟦ C ⟧ (h₁ , l₀)
+sound {C} C1 {l₀} {h₀} {h₁} = _
+sound C2 = {! !}
+sound (C3 x) = {! !}
+sound (C4 r r₁) = _
+sound (C5 x r) = {! !}
+sound (C6 x r r₁) = {! !}
+sound (C7 r) = {! !}
 -}
