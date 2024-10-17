@@ -12,7 +12,7 @@ data Exp : Set where
   _=ₑ_  : Exp → Exp → Exp
   _mod_ : Exp → Exp → Exp
 
-infix  5 _:=_
+infix  6 _:=_
 infix  5 if_then_else_
 infix  5 while_exec_
 infixr 3 _⨟_

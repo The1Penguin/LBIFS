@@ -5,52 +5,52 @@ open import Lang.AST
 open import Lang.Semantics
 open import Lang.TC
 open import Lang.Types
+open import NumberOverload
 open import Relation.Binary.PropositionalEquality using (_≡_; _≢_; refl; cong)
 
-codeEx₁ : Cmd
-codeEx₁ =
-  h := var h mod litℕ 2 ⨟
-  l := litℕ 0 ⨟
-  if var h =ₑ litℕ 1 then l := litℕ 1
-                     else skip
+typed : (cmd : Cmd) → TC ([low] ⊢ cmd)
+typed cmd = typableCmd [low] cmd
+
+-- Don't evaluate semantics as this is not terminating
 code⊥ : Cmd
 code⊥ =
-  while litℕ 0 =ₑ litℕ 0 exec skip
+  while 0 =ₑ 0 exec skip
 
-codeEx₂ : Cmd
-codeEx₂ = skip
+ex1 ex2 ex3 : Cmd
+ex1 =
+  h := var h mod 2 ⨟
+  l := 0 ⨟
+  if var h =ₑ 1 then l := 1
+                else skip
 
+ex2 =
+  l := var l mod 2 ⨟
+  h := 0 ⨟
+  if var l =ₑ 1 then h := 1
+                else skip
+
+ex3 = if var h =ₑ 0 then h := 1 else h := 2 ⨟
+      l := 0
+
+
+
+{-
 data Safe {l₀ h₀ h₁} (C : Cmd) : Set where
   safe : ⟦ C ⟧ (h₀ , l₀) ≈ₗ ⟦ C ⟧ (h₁ , l₀) → Safe C
 
 safet : ∀ {C} {l₀ h₀ h₁} → {h₀ ≢ h₁} → Result × Result
 safet {C} {l₀} {h₀} {h₁} = ( ⟦ C ⟧ (h₀ , l₀) , ⟦ C ⟧ (h₁ , l₀) )
 
-unsafe : Safe codeEx₁
-unsafe = safe {0} {0} {0} {codeEx₁} refl
+unsafe : Safe ex1
+unsafe = safe {0} {0} {0} {ex1} refl
 
-issafe : Safe codeEx₂
-issafe = safe refl
+-- issafe : Safe ex2
+-- issafe = safe refl
 
 issafe? : ∀ {l₀ h₀ h₁} → Safe (l := var h)
 issafe? {l₀} {h₀} {h₁} = safe {l₀} {h₀} {h₁} {l := var h} ?
 issafe! = safet {l := var h} {0} {1}
 
-
-typeₑ0 : ⊢ litℕ 0 ⦂ low
-typeₑ0 = E2 (λ ())
-typeₑ1 : ⊢ var h ⦂ low
-typeₑ1 = ? -- Not typeable
-
-typedₑ1 : TC (⊢ var h ⦂ low)
-typedₑ1 = typableExp low (var h)
-
-
-cmd : Cmd
-cmd = codeEx₁ -- l := var h
-
-typed : TC ([low] ⊢ cmd)
-typed = typableCmd [low] cmd
 
 variable
   l₀ l₁ h₀ h₁ lᵢ hᵢ vₗ vₕ : ℕ
@@ -66,3 +66,4 @@ sound {l₀} {h₀} {h₁} (C4 t t₁) with sound {l₀} {h₀} {h₁} t | sound
 sound (C5 e t) = {! !}
 sound (C6 e t t₁) = {! !}
 sound (C7 t) = {! safe refl !}
+-}
